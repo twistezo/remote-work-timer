@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <title>Hello World!</title>
   <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./assets/css/timer.css">
+  <link rel="stylesheet" href="./assets/css/table.css">
   <link rel="import" href="./tabs/timer.html">
   <link rel="import" href="./tabs/table.html">
 </head>
@@ -13,29 +15,22 @@
 
   <ul class="nav nav-tabs">
     <li class="nav-item">
-      <a class="nav-link active" href="#">Active</a>
+      <a class="nav-link active" href="#timer" data-toggle="tab">Timer</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Link</a>
+      <a class="nav-link" href="#table" data-toggle="tab">Table</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Link</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link disabled" href="#">Disabled</a>
+      <a class="nav-link" href="#about" data-toggle="tab">About</a>
     </li>
   </ul>
 
-  <h1>Hello World!</h1>
-  We are using Node.js
-  <script>document.write(process.versions.node)</script>, Chromium
-  <script>document.write(process.versions.chrome)</script>, and Electron
-  <script>document.write(process.versions.electron)</script>.
-
-  <button type="button" class="btn btn-primary">Primary</button>
-  <button type="button" class="btn btn-secondary">Secondary</button>
+  <div class="tab-content">
+    <div class="tab-pane content" id="table"></div>
+  </div>
 
   <script>
+    require('./assets/imports.js')
     require('./renderer-process/timer.js')
     require('./renderer-process/main-renderer.js')
   </script>
