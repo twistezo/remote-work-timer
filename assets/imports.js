@@ -1,8 +1,46 @@
 const links = document.querySelectorAll('link[rel="import"]')
 
-// Import and add each page to the DOM
-Array.prototype.forEach.call(links, (link) => {
-  let template = link.import.querySelector('.task-template')
-  let clone = document.importNode(template.content, true)
-  document.querySelector('.content').appendChild(clone)
-})
+activeTab();
+
+function activeTab() {
+  let navTabs = document.querySelector('.nav-tabs');
+
+  navTabs.onclick = () => {
+    let tabs = document.querySelectorAll('.nav-item');
+
+    Array.prototype.forEach.call(tabs, (tab) => {
+      let active = tab.querySelector('.active');
+      if (active != null) {
+        let attr = active.getAttribute('href');
+        p('attr', attr);
+      }
+    })
+  }
+}
+
+function p(name, value) {
+  console.log(name + ': ' + value);
+}
+
+// Array.prototype.forEach.call(links, (link) => {
+//   let template = link.import.querySelector('template')
+//   let clone = document.importNode(template.content, true)
+
+//   let current = clone.querySelector('#timer-template')
+//   console.log('current: ' + current);
+
+//   let tabPane = document.querySelector('.tab-pane.active').setAttribute('id', 'timer')
+//   console.log('tab: ' + tabPane);
+//   document.querySelector('#template-container').appendChild(current)
+
+// })
+
+////////////////////////////////////
+
+// const link = document.querySelector('link[rel="import"]');
+
+// // Clone the <template> in the import.
+// let template = link.import.querySelector('template');
+// let clone = document.importNode(template.content, true);
+
+// document.querySelector('#container').appendChild(clone);
