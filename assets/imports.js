@@ -1,4 +1,4 @@
-const links = document.querySelectorAll('link[rel="import"]')
+// const links = document.querySelectorAll('link[rel="import"]')
 
 // Array.prototype.forEach.call(links, (link) => {
 //   let template = link.import.querySelector('template')

@@ -1,0 +1,15 @@
+{
+    "parser": "babel-eslint",
+    "plugins": [],
+    "rules": {
+        "no-unused-vars": 1,
+        "no-undef": 1,
+        "no-console": 1
+    },
+    "extends": [
+        "eslint:recommended"
+    ],
+    "env": {
+        "browser": true
+    }
+}
