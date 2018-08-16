@@ -10,7 +10,6 @@ function createWindow() {
 
   if (debug) {
     mainWindow.webContents.openDevTools()
-    mainWindow.maximize()
     require('devtron').install()
   }
 

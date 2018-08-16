@@ -1,27 +1,5 @@
 const links = document.querySelectorAll('link[rel="import"]')
 
-activeTab();
-
-function activeTab() {
-  let navTabs = document.querySelector('.nav-tabs');
-
-  navTabs.onclick = () => {
-    let tabs = document.querySelectorAll('.nav-item');
-
-    Array.prototype.forEach.call(tabs, (tab) => {
-      let active = tab.querySelector('.active');
-      if (active != null) {
-        let attr = active.getAttribute('href');
-        p('attr', attr);
-      }
-    })
-  }
-}
-
-function p(name, value) {
-  console.log(name + ': ' + value);
-}
-
 // Array.prototype.forEach.call(links, (link) => {
 //   let template = link.import.querySelector('template')
 //   let clone = document.importNode(template.content, true)
