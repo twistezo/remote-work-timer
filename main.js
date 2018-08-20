@@ -1,37 +1,67 @@
-const { app, BrowserWindow } = require('electron')
+import { app, BrowserWindow } from 'electron';
+import Devtron from 'devtron';
+import path from 'path';
+import glob from 'glob';
 
-const debug = /--debug/.test(process.argv[2])
-
-let mainWindow = null
-
-function createWindow() {
-  mainWindow = new BrowserWindow({ width: 800, height: 600 })
-  mainWindow.loadFile('index.html')
-
-  if (debug) {
-    mainWindow.webContents.openDevTools()
-    require('devtron').install()
+export default class ElectronApp {
+  constructor() {
+    this.mainWindow = null;
+    this.process = process;
+    this.debug = /--debug/.test(this.process.argv[3]);
   }
 
-  mainWindow.on('closed', function () {
-    mainWindow = null
-  })
+  init() {
+    const shouldQuit = this.makeSingleInstance()
+    if (shouldQuit) return app.quit()
+
+    this.loadMainProcessFiles()
+
+    app.on('ready', () => {
+      this.createWindow()
+    })
+
+    app.on('window-all-closed', () => {
+      if (this.process.platform !== 'darwin') {
+        app.quit()
+      }
+    })
+
+    app.on('activate', () => {
+      if (this.mainWindow === null) {
+        this.createWindow()
+      }
+    })
+  }
+
+  createWindow() {
+    this.mainWindow = new BrowserWindow({ width: 800, height: 600 })
+    this.mainWindow.loadFile('index.html')
+
+    if (this.debug) {
+      this.mainWindow.webContents.openDevTools()
+      Devtron.install()
+    }
+
+    this.mainWindow.on('closed', function () {
+      this.mainWindow = null
+    })
+  }
+
+  makeSingleInstance() {
+    if (this.process.mas) return false
+
+    return app.makeSingleInstance(() => {
+      if (this.mainWindow) {
+        if (this.mainWindow.isMinimized()) this.mainWindow.restore()
+        this.mainWindow.focus()
+      }
+    })
+  }
+
+  loadMainProcessFiles() {
+    const files = glob.sync(path.join(__dirname, 'main-process/*.js'))
+    files.forEach((file) => { require(file) })
+  }
 }
 
-app.on('ready', createWindow)
-
-app.on('window-all-closed', function () {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
-
-app.on('activate', function () {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow()
-  }
-})
+new ElectronApp().init();
