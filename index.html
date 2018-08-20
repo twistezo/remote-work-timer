@@ -9,28 +9,35 @@
   <link rel="stylesheet" href="./assets/css/table.css">
   <link rel="import" href="./tabs/timer.html">
   <link rel="import" href="./tabs/table.html">
+  <link rel="import" href="./tabs/settings.html">
   <link rel="import" href="./tabs/about.html">
 </head>
 
 <body>
-  <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <a class="nav-link" href="#timer">Timer</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#table">Table</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#about">About</a>
-    </li>
-  </ul>
+  <div class="container">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link" href="#timer">Timer</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#table">Table</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#settings">Settings</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#about">About</a>
+      </li>
+    </ul>
+  </div>
 
-  <div id="template-container" />
+  <div class="container pt-3">
+    <div id="template-container" />
+  </div>
 
   <script>
     require('babel-register');
     require('./renderer-process/main-renderer.js')
-    require('./renderer-process/timer.js')
   </script>
 </body>
 

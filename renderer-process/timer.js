@@ -1,9 +1,14 @@
 class Timer {
-    constructor() {
+    constructor(settings) {
+        this.settings = settings;
         this.running = false;
     }
 
     init() {
+
+    }
+
+    getFromUserHoursToCountDown() {
 
     }
 }

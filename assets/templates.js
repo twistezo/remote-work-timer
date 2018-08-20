@@ -1,6 +1,6 @@
 class TemplateSelector {
     constructor() {
-        this.activeTab = '';
+        this.activeTab = null;
         this.templates = document.querySelectorAll('link[rel="import"]');
         this.templateContainerElement = document.querySelector('#template-container');
         this.activeFirstTemplateOnStart(this.templates, this.templateContainerElement);
@@ -23,6 +23,10 @@ class TemplateSelector {
         while (parent.firstChild) {
             parent.firstChild.remove();
         }
+    }
+
+    getActiveTab() {
+        return this.activeTab;
     }
 
     setActiveTab(value) {

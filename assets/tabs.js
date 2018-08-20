@@ -1,6 +1,11 @@
 class NavTabs {
-    constructor(TemplateSelector) {
+    constructor() {
+        this.templateSelector = null;
+    }
+
+    withTemplateSelector(TemplateSelector) {
         this.templateSelector = TemplateSelector;
+        return this;
     }
 
     init() {
