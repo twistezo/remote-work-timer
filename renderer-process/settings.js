@@ -1,29 +1,21 @@
 class Settings {
-    constructor() {
-        this.dailyHours = 0;
-        this.inputsListener();
+    constructor(MainRenderer) {
+        this.mainRenderer = MainRenderer;
+        this.dailyHours = 8;
     }
 
-    inputsListener() {
-        const input = document.querySelector('#dailyHoursInput');
+    listenInputs() {
+        this.dailyHours = this.listenForValueFromInputById('#dailyHoursInput');
+    }
+
+    // `inputId` e.x. `#someInputId`
+    listenForValueFromInputById(inputId) {
+        const input = document.querySelector(inputId);
         if (input) {
             input.oninput = () => {
-                console.log('true');
+                return input.value;
             }
         }
-    }
-
-    setDailyHours(hours) {
-        this.dailyHours = hours;
-    }
-
-    getDailyHours() {
-        return this.dailyHours;
-    }
-
-    setInputValue(inputId, value) {
-        const input = document.getElementById(inputId);
-        input.value = value;
     }
 }
 

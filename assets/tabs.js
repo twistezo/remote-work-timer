@@ -1,14 +1,11 @@
 class NavTabs {
-    constructor() {
-        this.templateSelector = null;
+    constructor(MainRenderer) {
+        this.mainRenderer = MainRenderer;
+        this.templateSelector = this.mainRenderer.templateSelector;
+        this.listenChanges();
     }
 
-    withTemplateSelector(TemplateSelector) {
-        this.templateSelector = TemplateSelector;
-        return this;
-    }
-
-    init() {
+    listenChanges() {
         let navTabs = document.querySelector('.nav-tabs');
         let navItems = navTabs.querySelectorAll('.nav-item');
         this.activeFirstNavItem(navItems);
@@ -17,8 +14,9 @@ class NavTabs {
                 navItem.classList.add('active', 'show');
                 let activeNavItem = navItem.querySelector('.nav-link').getAttribute('href');
                 this.unactiveRestOfNavItems(navItems, activeNavItem);
-                this.templateSelector.setActiveTab(activeNavItem);
+                this.mainRenderer.setActiveTabByValue(activeNavItem);
                 this.templateSelector.renderTemplate();
+                this.mainRenderer.triggerListeners();
             }
         })
     }

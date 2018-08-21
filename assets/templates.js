@@ -1,6 +1,6 @@
 class TemplateSelector {
-    constructor() {
-        this.activeTab = null;
+    constructor(MainRenderer) {
+        this.mainRenderer = MainRenderer;
         this.templates = document.querySelectorAll('link[rel="import"]');
         this.templateContainerElement = document.querySelector('#template-container');
         this.activeFirstTemplateOnStart(this.templates, this.templateContainerElement);
@@ -11,7 +11,9 @@ class TemplateSelector {
 
         Array.prototype.forEach.call(this.templates, (link) => {
             let templateElement = link.import.querySelector('template');
-            if (templateElement.getAttribute('id') == this.activeTab) {
+            let currentTemplateId = templateElement.getAttribute('id'); // returns '#name'
+            let activeTab = this.mainRenderer.getActiveTab(currentTemplateId);
+            if (currentTemplateId == activeTab) {
                 let templateContentClone = document.importNode(templateElement.content, true)
                 this.templateContainerElement.appendChild(templateContentClone);
             }
@@ -23,14 +25,6 @@ class TemplateSelector {
         while (parent.firstChild) {
             parent.firstChild.remove();
         }
-    }
-
-    getActiveTab() {
-        return this.activeTab;
-    }
-
-    setActiveTab(value) {
-        this.activeTab = value;
     }
 
     activeFirstTemplateOnStart(templates, templateContainer) {

@@ -1,3 +1,4 @@
+// TODO: Clean up those Bootstrap imports.
 window.$ = window.jQuery = require('jquery')
 window.Popper = require('popper.js')
 window.Bootstrap = require('bootstrap')
@@ -9,36 +10,40 @@ import Timer from './timer';
 
 export default class MainRenderer {
     constructor() {
-        this.settings = null;
-        this.ActiveTabEnum = Object.freeze({
+        this.TabsEnum = Object.freeze({
             TIMER: '#timer',
             TABLE: '#table',
             SETTINGS: '#settings',
             ABOUT: '#about'
         });
-        this.activeTab = null;
+        this.activeTab = '#timer';
+        this.settings = new Settings(this);
+        this.templateSelector = new TemplateSelector(this);
+        this.navTabs = new NavTabs(this);
     }
 
-    run() {
-        const templateSelector = new TemplateSelector();
-        new NavTabs().withTemplateSelector(templateSelector).init();
-        this.settings = new Settings();
-
-        const activeTab = this.ActiveTab;
-        console.log(activeTab);
-
-        new Timer(this.settings).init();
+    // Run listeners only for specific tab
+    triggerListeners() {
+        if (this.TabsEnum.SETTINGS == this.activeTab) {
+            this.settings.listenInputs();
+        }
     }
 
-    teste(ObjEnum) {
-        for (const key of Object.keys(ObjEnum)) {
-            console.log(key, ObjEnum[key]);
-            if (key == ObjEnum) {
-                true
+    getTabsEnum() {
+        return this.TabsEnum;
+    }
+
+    getActiveTab() {
+        return this.activeTab;
+    }
+
+    setActiveTabByValue(givenValue) {
+        for (const value of Object.values(this.TabsEnum)) {
+            if (givenValue == value) {
+                this.activeTab = value;
             }
-
         }
     }
 }
 
-new MainRenderer().run();
+new MainRenderer();
