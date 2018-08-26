@@ -1,10 +1,18 @@
 class Settings {
     constructor(MainRenderer) {
         this.mainRenderer = MainRenderer;
-        this.dailyHours = 8;
+        this.dailyHours = null;
+        this.defaultDailyHours = 8;
+        
+        this.defaultDailyDuration = 70;
     }
 
-    listenInputs() {
+    onInit() {
+        const input = document.querySelector('#dailyHoursInput');
+        input.value = this.defaultDailyHours;
+    }
+
+    listen() {
         this.dailyHours = this.listenForValueFromInputById('#dailyHoursInput');
     }
 

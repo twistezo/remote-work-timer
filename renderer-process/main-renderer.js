@@ -20,12 +20,17 @@ export default class MainRenderer {
         this.settings = new Settings(this);
         this.templateSelector = new TemplateSelector(this);
         this.navTabs = new NavTabs(this);
+        this.timer = new Timer(this);
+        this.triggerListeners();
     }
 
-    // Run listeners only for specific tab
+    // Run listeners only for a specific tab
     triggerListeners() {
         if (this.TabsEnum.SETTINGS == this.activeTab) {
-            this.settings.listenInputs();
+            this.settings.listen();
+        } else if (this.TabsEnum.TIMER == this.activeTab) {
+            this.timer.listenButtons();
+            this.timer.renderTime();
         }
     }
 

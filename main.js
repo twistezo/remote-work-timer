@@ -39,7 +39,7 @@ export default class ElectronApp {
 
     if (this.debug) {
       this.mainWindow.webContents.openDevTools()
-      Devtron.install()
+      // Devtron.install()
     }
 
     this.mainWindow.on('closed', function () {
