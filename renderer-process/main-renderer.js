@@ -24,7 +24,6 @@ export default class MainRenderer {
         this.triggerListeners();
     }
 
-    // Run listeners only for a specific tab
     triggerListeners() {
         if (this.TabsEnum.SETTINGS == this.activeTab) {
             this.settings.listen();

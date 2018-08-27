@@ -7,51 +7,53 @@ class Timer {
         this.isRunning = false;
         this.shouldReset = false;
 
-        this.durationDefault = this.mainRenderer.settings.defaultDailyDuration;
-        this.duration = this.durationDefault; // [s]
-        this.elapsed = this.duration;
-        this.fHours = null;
-        this.fMinutes = null;
-        this.fSeconds = null;
-        this.initDefaultDisplayValues();
+        this.displayedTime = { hours: 0, minutes: 0, seconds: 0 }
+        this.duration = null;
+        this.elapsed = null;
+        this.resetDuration();
     }
 
-    initDefaultDisplayValues() {
-        this.fHours = this.formattedHoursFromSeconds(this.duration);
-        this.fMinutes = this.formattedMinutesFromSeconds(this.duration);
-        this.fSeconds = this.formattedSeconds(this.duration);
+    resetDuration() {
+        this.setDuration(this.mainRenderer.settings.getDailyWorkingTimeInSec());
+    }
+
+    resetElapsed() {
+        this.elapsed = this.duration;
+    }
+
+    setDuration(seconds) {
+        this.displayedTime = this.secondsToHMS(seconds);
+        this.duration = seconds;
     }
 
     listenButtons() {
         const startButton = document.querySelector('#startButton');
         const resetButton = document.querySelector('#resetButton');
-        if (startButton) {
-            startButton.onclick = () => {
-                this.isRunning = !this.isRunning;
-                if (this.isRunning) {
-                    startButton.innerHTML = 'Pause';
-                    startButton.className = 'btn btn-warning';
-                } else {
-                    startButton.innerHTML = 'Start';
-                    startButton.className = 'btn btn-success';
-                    this.duration = this.elapsed;
-                }
-                this.resetStartDate();
-                this.counter = setInterval(() => {
-                    if (this.isRunning) {
-                        this.count()
-                    }
-                }, 1000);
-            };
-        }
-        if (resetButton) {
-            resetButton.onclick = () => {
-                this.shouldReset = true;
-                this.resetCounter();
+
+        startButton.onclick = () => {
+            this.isRunning = !this.isRunning;
+            if (this.isRunning) {
+                startButton.innerHTML = 'Pause';
+                startButton.className = 'btn btn-warning';
+            } else {
                 startButton.innerHTML = 'Start';
                 startButton.className = 'btn btn-success';
-            };
-        }
+                this.duration = this.elapsed;
+            }
+            this.resetStartDate();
+            this.counter = setInterval(() => {
+                if (this.isRunning) {
+                    this.count()
+                }
+            }, 1000);
+        };
+
+        resetButton.onclick = () => {
+            this.shouldReset = true;
+            this.resetCounter();
+            startButton.innerHTML = 'Start';
+            startButton.className = 'btn btn-success';
+        };
     }
 
     resetStartDate() {
@@ -61,9 +63,7 @@ class Timer {
     count() {
         let diff = this.duration - (((Date.now() - this.startDate) / 1000) | 0); // [s]
         this.elapsed = diff;
-        this.fHours = this.formattedHoursFromSeconds(diff);
-        this.fMinutes = this.formattedMinutesFromSeconds(diff);
-        this.fSeconds = this.formattedSeconds(diff);
+        this.displayedTime = this.secondsToHMS(diff)
 
         if (this.mainRenderer.TabsEnum.TIMER == this.mainRenderer.activeTab) {
             this.renderTime();
@@ -79,39 +79,26 @@ class Timer {
         this.startDate = null;
         this.isRunning = false;
         this.shouldReset = false;
-        this.duration = this.durationDefault;
-        this.elapsed = this.duration;
-        this.initDefaultDisplayValues();
+        this.resetElapsed();
+        this.resetDuration();
         this.renderTime();
     }
 
     renderTime() {
-        let displaElement = document.querySelector('#remainingTime');
-        displaElement.textContent = this.formattedDispalyTime(
-            this.fHours, this.fMinutes, this.fSeconds
-        );
+        document.querySelector('#remainingTime').textContent =
+            this.displayedTime.hours + ':' + this.displayedTime.minutes
+            + ':' + this.displayedTime.seconds;
     }
 
-    formattedDispalyTime(hours, minutes, seconds) {
-        hours = hours < 10 ? '0' + hours : hours;
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-        seconds = seconds < 10 ? '0' + seconds : seconds;
-        return hours + ':' + minutes + ':' + seconds;
+    secondsToHMS(sec_num) {
+        var hours = Math.floor(sec_num / 3600);
+        var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+        var seconds = sec_num - (hours * 3600) - (minutes * 60);
+        if (hours < 10) { hours = "0" + hours; }
+        if (minutes < 10) { minutes = "0" + minutes; }
+        if (seconds < 10) { seconds = "0" + seconds; }
+        return { hours, minutes, seconds };
     }
-
-    formattedHoursFromSeconds(seconds) {
-        return (seconds / 3600) | 0;
-    }
-
-    formattedMinutesFromSeconds(seconds) {
-        return (seconds / 60) | 0;
-    }
-
-    formattedSeconds(seconds) {
-        return (seconds % 60) | 0;
-    }
-
-
 }
 
 export { Timer as default }

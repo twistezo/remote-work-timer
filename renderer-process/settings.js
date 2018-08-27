@@ -1,29 +1,47 @@
 class Settings {
     constructor(MainRenderer) {
         this.mainRenderer = MainRenderer;
-        this.dailyHours = null;
-        this.defaultDailyHours = 8;
-        
-        this.defaultDailyDuration = 70;
-    }
-
-    onInit() {
-        const input = document.querySelector('#dailyHoursInput');
-        input.value = this.defaultDailyHours;
+        this.dailyWorkingTime = { hours: 0, minutes: 0, seconds: 3 };
     }
 
     listen() {
-        this.dailyHours = this.listenForValueFromInputById('#dailyHoursInput');
+        this.setInputById('#dailyWorkingTimeHours', this.dailyWorkingTime.hours);
+        this.setInputById('#dailyWorkingTimeMinutes', this.dailyWorkingTime.minutes);
+        this.setInputById('#dailyWorkingTimeSeconds', this.dailyWorkingTime.seconds);
+
+        const hoursElement = document.querySelector('#dailyWorkingTimeHours');
+        const minutesElement = document.querySelector('#dailyWorkingTimeMinutes');
+        const secondsElement = document.querySelector('#dailyWorkingTimeSeconds');
+
+        hoursElement.oninput = () => {
+            this.dailyWorkingTime.hours = parseInt(hoursElement.value, 10);
+            this.setTimer();
+        }
+        minutesElement.oninput = () => {
+            this.dailyWorkingTime.minutes = parseInt(minutesElement.value, 10);
+            this.setTimer();
+        }
+        secondsElement.oninput = () => {
+            this.dailyWorkingTime.seconds = parseInt(secondsElement.value, 10);
+            this.setTimer();
+        }
     }
 
-    // `inputId` e.x. `#someInputId`
-    listenForValueFromInputById(inputId) {
+    setInputById(inputId, value) {
         const input = document.querySelector(inputId);
         if (input) {
-            input.oninput = () => {
-                return input.value;
-            }
+            input.value = value;
         }
+    }
+
+    setTimer() {
+        this.mainRenderer.timer.setDuration(this.getDailyWorkingTimeInSec());
+    }
+
+    getDailyWorkingTimeInSec() {
+        const seconds = (this.dailyWorkingTime.hours * 3600) + (this.dailyWorkingTime.minutes * 60)
+            + this.dailyWorkingTime.seconds
+        return seconds;
     }
 }
 
