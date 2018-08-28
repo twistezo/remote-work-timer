@@ -1,43 +1,27 @@
+import CycleEndInfoDialog from './cycle-end-info-dialog';
+
 class Timer {
     constructor(MainRenderer) {
         this.mainRenderer = MainRenderer;
-
+        this.startButton = document.querySelector('#startButton');
+        this.resetButton = document.querySelector('#resetButton');
         this.counter = null;
         this.startDate = null;
         this.isRunning = false;
         this.shouldReset = false;
-
         this.displayedTime = { hours: 0, minutes: 0, seconds: 0 }
         this.duration = null;
         this.elapsed = null;
         this.resetDuration();
     }
 
-    resetDuration() {
-        this.setDuration(this.mainRenderer.settings.getDailyWorkingTimeInSec());
-    }
-
-    resetElapsed() {
-        this.elapsed = this.duration;
-    }
-
-    setDuration(seconds) {
-        this.displayedTime = this.secondsToHMS(seconds);
-        this.duration = seconds;
-    }
-
     listenButtons() {
-        const startButton = document.querySelector('#startButton');
-        const resetButton = document.querySelector('#resetButton');
-
-        startButton.onclick = () => {
+        this.startButton.onclick = () => {
             this.isRunning = !this.isRunning;
             if (this.isRunning) {
-                startButton.innerHTML = 'Pause';
-                startButton.className = 'btn btn-warning';
+                this.switchButtonToPause(this.startButton);
             } else {
-                startButton.innerHTML = 'Start';
-                startButton.className = 'btn btn-success';
+                this.switchButtonToStart(this.startButton);
                 this.duration = this.elapsed;
             }
             this.resetStartDate();
@@ -48,16 +32,10 @@ class Timer {
             }, 1000);
         };
 
-        resetButton.onclick = () => {
+        this.resetButton.onclick = () => {
             this.shouldReset = true;
             this.resetCounter();
-            startButton.innerHTML = 'Start';
-            startButton.className = 'btn btn-success';
         };
-    }
-
-    resetStartDate() {
-        this.startDate = Date.now();
     }
 
     count() {
@@ -72,15 +50,34 @@ class Timer {
             clearInterval(this.counter);
             this.resetCounter();
         }
+        if (diff <= 0) {
+            new CycleEndInfoDialog().show();
+        }
+    }
+
+    resetDuration() {
+        this.setDuration(this.mainRenderer.settings.getDailyWorkingTimeInSec());
+    }
+
+    setDuration(seconds) {
+        this.displayedTime = this.secondsToHMS(seconds);
+        this.duration = seconds;
+    }
+
+    resetElapsed() {
+        this.elapsed = this.duration;
+    }
+
+    resetStartDate() {
+        this.startDate = Date.now();
     }
 
     resetCounter() {
-        this.counter = null;
-        this.startDate = null;
+        this.resetDuration();
+        this.resetStartDate();
         this.isRunning = false;
         this.shouldReset = false;
-        this.resetElapsed();
-        this.resetDuration();
+        this.switchButtonToStart(this.startButton);
         this.renderTime();
     }
 
@@ -90,14 +87,24 @@ class Timer {
             + ':' + this.displayedTime.seconds;
     }
 
-    secondsToHMS(sec_num) {
-        var hours = Math.floor(sec_num / 3600);
-        var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-        var seconds = sec_num - (hours * 3600) - (minutes * 60);
+    secondsToHMS(seconds_number) {
+        var hours = Math.floor(seconds_number / 3600);
+        var minutes = Math.floor((seconds_number - (hours * 3600)) / 60);
+        var seconds = seconds_number - (hours * 3600) - (minutes * 60);
         if (hours < 10) { hours = "0" + hours; }
         if (minutes < 10) { minutes = "0" + minutes; }
         if (seconds < 10) { seconds = "0" + seconds; }
         return { hours, minutes, seconds };
+    }
+
+    switchButtonToPause(startButton) {
+        startButton.innerHTML = 'Pause';
+        startButton.className = 'btn btn-warning';
+    }
+
+    switchButtonToStart(startButton) {
+        startButton.innerHTML = 'Start';
+        startButton.className = 'btn btn-success';
     }
 }
 

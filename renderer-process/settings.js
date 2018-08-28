@@ -1,7 +1,7 @@
 class Settings {
     constructor(MainRenderer) {
         this.mainRenderer = MainRenderer;
-        this.dailyWorkingTime = { hours: 0, minutes: 0, seconds: 3 };
+        this.dailyWorkingTime = { hours: 0, minutes: 0, seconds: 2 };
     }
 
     listen() {
