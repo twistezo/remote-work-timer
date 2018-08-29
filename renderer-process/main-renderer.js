@@ -7,6 +7,7 @@ import NavTabs from '../assets/tabs';
 import TemplateSelector from '../assets/templates';
 import Settings from './settings';
 import Timer from './timer';
+import { Data } from '../assets/data';
 
 export default class MainRenderer {
     constructor() {
@@ -21,6 +22,7 @@ export default class MainRenderer {
         this.templateSelector = new TemplateSelector(this);
         this.navTabs = new NavTabs(this);
         this.timer = new Timer(this);
+        this.data = new Data();
         this.triggerListeners();
     }
 

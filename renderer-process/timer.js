@@ -1,3 +1,4 @@
+import { CycleData } from '../assets/data';
 import CycleEndInfoDialog from './cycle-end-info-dialog';
 
 class Timer {
@@ -10,8 +11,9 @@ class Timer {
         this.isRunning = false;
         this.shouldReset = false;
         this.displayedTime = { hours: 0, minutes: 0, seconds: 0 }
-        this.duration = null;
-        this.elapsed = null;
+        this.duration = null; // [s]
+        this.elapsed = null; // [s]
+        this.tempCycleData = { dateFrom: null, dateTo: null };
         this.resetDuration();
     }
 
@@ -19,8 +21,10 @@ class Timer {
         this.startButton.onclick = () => {
             this.isRunning = !this.isRunning;
             if (this.isRunning) {
+                this.startCycle();
                 this.switchButtonToPause(this.startButton);
             } else {
+                this.pushCycle();
                 this.switchButtonToStart(this.startButton);
                 this.duration = this.elapsed;
             }
@@ -39,7 +43,7 @@ class Timer {
     }
 
     count() {
-        let diff = this.duration - (((Date.now() - this.startDate) / 1000) | 0); // [s]
+        let diff = this.duration - (((Date.now() - this.startDate) / 1000) | 0);
         this.elapsed = diff;
         this.displayedTime = this.secondsToHMS(diff)
 
@@ -49,10 +53,21 @@ class Timer {
         if (diff <= 0 || this.shouldReset) {
             clearInterval(this.counter);
             this.resetCounter();
+            this.pushCycle();
         }
         if (diff <= 0) {
             new CycleEndInfoDialog().show();
         }
+    }
+
+    startCycle() {
+        this.tempCycleData.dateFrom = new Date();
+    }
+
+    pushCycle() {
+        this.mainRenderer.data.pushCycle(
+            new CycleData(this.tempCycleData.dateFrom, new Date())
+        );
     }
 
     resetDuration() {
