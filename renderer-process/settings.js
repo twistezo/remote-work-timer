@@ -1,18 +1,21 @@
+import OpenFileDialog from './open-file';
+
 class Settings {
     constructor(MainRenderer) {
         this.mainRenderer = MainRenderer;
         this.dailyWorkingTime = { hours: 0, minutes: 0, seconds: 5 };
+        this.openFileDialog = new OpenFileDialog();
     }
 
     listen() {
         this.setInputById('#dailyWorkingTimeHours', this.dailyWorkingTime.hours);
         this.setInputById('#dailyWorkingTimeMinutes', this.dailyWorkingTime.minutes);
         this.setInputById('#dailyWorkingTimeSeconds', this.dailyWorkingTime.seconds);
-
+        
         const hoursElement = document.querySelector('#dailyWorkingTimeHours');
         const minutesElement = document.querySelector('#dailyWorkingTimeMinutes');
         const secondsElement = document.querySelector('#dailyWorkingTimeSeconds');
-
+        
         hoursElement.oninput = () => {
             this.dailyWorkingTime.hours = parseInt(hoursElement.value, 10);
             this.setTimer();
@@ -25,6 +28,7 @@ class Settings {
             this.dailyWorkingTime.seconds = parseInt(secondsElement.value, 10);
             this.setTimer();
         }
+        this.openFileDialog.listen();
     }
 
     setInputById(inputId, value) {
