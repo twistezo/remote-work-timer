@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 class Data {
     constructor() {
         this.daysData = [];
@@ -8,28 +10,60 @@ class Data {
     }
 
     pushCycle(cycleData) {
-        if (this.daysData.length > 0) {
-            let lastDay = this.daysData[this.daysData.length - 1];
-            if (lastDay.date.getDate() != cycleData.dateFrom.getDate() &&
-                lastDay.date.getMonth() != cycleData.dateFrom.getMonth() &&
-                lastDay.date.getFullYear() != cycleData.dateFrom.getFullYear()) {
-                let dayData = new DayData();
-                dayData.pushCycle(cycleData);
-                this.pushDay(dayData);
-                console.log('Data was not empty; Cycle date diffrent from last;');
-                console.log(this.daysData);
-            } else {
-                lastDay.pushCycle(cycleData);
-                console.log('Data was not empty; Cycle date the same as last;');
-                console.log(this.daysData);
-            }
-        } else {
+        if (this.daysData.length == 0) {
+            console.log('Data was empty');
             let dayData = new DayData();
             dayData.pushCycle(cycleData);
             this.pushDay(dayData);
-            console.log('Data was empty');
-            console.log(this.daysData);
+        } else {
+            let lastDayDate = this.daysData[this.daysData.length - 1].date;
+            if (lastDayDate.getDate() != cycleData.dateFrom.getDate() &&
+                lastDayDate.getMonth() != cycleData.dateFrom.getMonth() &&
+                lastDayDate.getFullYear() != cycleData.dateFrom.getFullYear()) {
+                console.log('Data was not empty; Cycle date diffrent from last;');
+                let dayData = new DayData();
+                dayData.pushCycle(cycleData);
+                this.pushDay(dayData);
+            } else {
+                console.log('Data was not empty; Cycle date the same as last;');
+                lastDay.pushCycle(cycleData);
+            }
         }
+        this.saveToFile();
+    }
+
+    loadFromFile() {
+        fs.readFile('data.json', 'utf8', (err, data) => {
+            if (!err) {
+                let rawData = JSON.parse(data);
+                this.daysData = this.parseRawData(rawData);
+            }
+        });
+    }
+
+    saveToFile() {
+        let data = JSON.stringify(this.daysData, null, 4);
+        fs.writeFile('data.json', data, (err) => {
+            if (err) console.log(err);
+        });
+    }
+
+    parseRawData(rawData) {
+        let daysData = [];
+        for (let i = 0; i <= rawData.length - 1; i++) {
+            let dayData = new DayData();
+            dayData.date = new Date(rawData[i].date);
+            for (let j = 0; j <= rawData[i].cyclesData.length - 1; j++) {
+                dayData.cyclesData.push(
+                    new CycleData(
+                        new Date(rawData[i].cyclesData[j].dateFrom),
+                        new Date(rawData[i].cyclesData[j].dateTo)
+                    )
+                );
+            }
+            daysData.push(dayData);
+        }
+        return daysData;
     }
 }
 

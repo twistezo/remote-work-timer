@@ -23,6 +23,7 @@ export default class MainRenderer {
         this.navTabs = new NavTabs(this);
         this.timer = new Timer(this);
         this.data = new Data();
+        this.data.loadFromFile();
         this.triggerListeners();
     }
 
