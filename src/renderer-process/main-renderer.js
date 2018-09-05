@@ -1,8 +1,3 @@
-// TODO: Clean up those Bootstrap imports.
-window.$ = window.jQuery = require('jquery')
-window.Popper = require('popper.js')
-window.Bootstrap = require('bootstrap')
-
 import NavTabs from '../assets/tabs';
 import TemplateSelector from '../assets/templates';
 import Settings from './settings';

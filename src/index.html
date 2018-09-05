@@ -4,13 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <title>Remote work timer</title>
-  <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="./assets/css/timer.css">
   <link rel="stylesheet" href="./assets/css/table.css">
-  <link rel="import" href="./tabs/timer.html">
-  <link rel="import" href="./tabs/table.html">
-  <link rel="import" href="./tabs/settings.html">
-  <link rel="import" href="./tabs/about.html">
+  <link rel="import" href="./assets/html/timer.html">
+  <link rel="import" href="./assets/html/table.html">
+  <link rel="import" href="./assets/html/settings.html">
+  <link rel="import" href="./assets/html/about.html">
 </head>
 
 <body>
@@ -36,7 +36,6 @@
   </div>
 
   <script>
-    require('babel-register');
     require('./renderer-process/main-renderer.js')
   </script>
 </body>
