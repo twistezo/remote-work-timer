@@ -1,9 +1,9 @@
-import { ipcRenderer } from 'electron';
+import { ipcRenderer } from 'electron'
 
 class CycleEndInfoDialog {
 
     show() {
-        ipcRenderer.send('open-cycle-end-info-dialog');
+        ipcRenderer.send('open-cycle-end-info-dialog')
     }
 }
 

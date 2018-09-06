@@ -1,4 +1,4 @@
-import { ipcMain, dialog } from 'electron';
+import { ipcMain, dialog } from 'electron'
 
 ipcMain.on('open-file-dialog', (event) => {
     dialog.showOpenDialog({

@@ -1,51 +1,20 @@
-import NavTabs from '../assets/tabs';
-import TemplateSelector from '../assets/templates';
-import Settings from './settings';
-import Timer from './timer';
-import { Data } from '../assets/data';
+import TemplateManager from '../assets/template-manager'
+import Settings from './settings'
+import Timer from './timer'
+import { Data } from '../assets/data'
 
 export default class MainRenderer {
     constructor() {
-        this.TabsEnum = Object.freeze({
-            TIMER: '#timer',
-            TABLE: '#table',
-            SETTINGS: '#settings',
-            ABOUT: '#about'
-        });
-        this.activeTab = '#timer';
-        this.settings = new Settings(this);
-        this.templateSelector = new TemplateSelector(this);
-        this.navTabs = new NavTabs(this);
-        this.timer = new Timer(this);
-        this.data = new Data();
-        this.data.loadFromFile();
-        this.triggerListeners();
+        this.settings = new Settings(this)
+        this.data = new Data()
+        this.data.loadFromFile()
+        this.timer = new Timer(this)
+        this.templateManager = new TemplateManager(this)
     }
-
-    triggerListeners() {
-        if (this.TabsEnum.SETTINGS == this.activeTab) {
-            this.settings.listen();
-        } else if (this.TabsEnum.TIMER == this.activeTab) {
-            this.timer.listenButtons();
-            this.timer.renderTime();
-        }
-    }
-
-    getTabsEnum() {
-        return this.TabsEnum;
-    }
-
-    getActiveTab() {
-        return this.activeTab;
-    }
-
-    setActiveTabByValue(givenValue) {
-        for (const value of Object.values(this.TabsEnum)) {
-            if (givenValue == value) {
-                this.activeTab = value;
-            }
-        }
+    
+    currentTabIsTimer() {
+        return (this.templateManager.TabsEnum.TIMER == this.templateManager.activeTab)
     }
 }
 
-new MainRenderer();
+new MainRenderer()
