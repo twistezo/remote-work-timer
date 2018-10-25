@@ -7,13 +7,9 @@ export default class MainRenderer {
     constructor() {
         this.settings = new Settings(this)
         this.data = new Data()
-        this.data.loadFromFile()
+        this.data.tryLoadFromFile('data.json')
         this.timer = new Timer(this)
         this.templateManager = new TemplateManager(this)
-    }
-    
-    currentTabIsTimer() {
-        return (this.templateManager.TabsEnum.TIMER == this.templateManager.activeTab)
     }
 }
 

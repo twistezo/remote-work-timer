@@ -12,41 +12,39 @@ class Data {
     pushCycle(cycleData) {
         if (this.daysData.length == 0) {
             // Data is empty
-            console.log('Data is empty')
             let dayData = new DayData()
             dayData.pushCycle(cycleData)
             this.pushDay(dayData)
         } else {
             // Data is not empty
-            console.log('Data is not empty')
             let lastDay = this.daysData[this.daysData.length - 1]
             if (lastDay.date.getDate() != cycleData.dateFrom.getDate() ||
                 lastDay.date.getMonth() != cycleData.dateFrom.getMonth() ||
                 lastDay.date.getFullYear() != cycleData.dateFrom.getFullYear()) {
                 // Date of inserted `Cycle` is diffrent from last in `Data`
-                console.log('Date of inserted `Cycle` is diffrent from last in `Data`')
                 let dayData = new DayData()
                 dayData.pushCycle(cycleData)
                 this.pushDay(dayData)
                 // Date of inserted `Cycle` is the same as last in `Data`
             } else {
-                console.log('Date of inserted `Cycle` is the same as last in `Data`')
                 lastDay.pushCycle(cycleData)
             }
         }
-        this.saveToFile()
+        this.tryWriteToFile()
     }
 
-    loadFromFile() {
-        fs.readFile('data.json', 'utf8', (err, data) => {
+    tryLoadFromFile(path) {
+        fs.readFile(path, 'utf8', (err, data) => {
             if (!err) {
                 let rawData = JSON.parse(data)
                 this.daysData = this.parseRawData(rawData)
+            } else if (err) {
+                console.log(err)
             }
         })
     }
 
-    saveToFile() {
+    tryWriteToFile() {
         let data = JSON.stringify(this.daysData, null, 4)
         fs.writeFile('data.json', data, (err) => {
             if (err) console.log(err)
