@@ -3,7 +3,7 @@ import path from 'path'
 import glob from 'glob'
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
+if (require('electron-squirrel-startup')) {
     app.quit()
 }
 
@@ -16,12 +16,12 @@ const createWindow = () => {
     mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
+        maximizable: false,
+        alwaysOnTop: true,
     })
 
-    // and load the index.html of the app.
     mainWindow.loadURL(`file://${__dirname}/index.html`)
-
-    // Open the DevTools.
+    mainWindow.setMenuBarVisibility(false)
     mainWindow.webContents.openDevTools()
 
     // Emitted when the window is closed.

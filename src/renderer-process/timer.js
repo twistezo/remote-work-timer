@@ -28,6 +28,9 @@ class Timer {
     listen() {
         this.startButton = this.getElement('#start-button')
         this.resetButton = this.getElement('#reset-button')
+        if (this.isRunning) {
+            this.switchButtonToPause(this.startButton)
+        }
         this.listenButtons()
         this.renderTime()
     }
@@ -61,7 +64,7 @@ class Timer {
         this.elapsed = diff
         this.displayedTime = this.secondsToHMS(diff)
 
-        if (this.mainRenderer.currentTabIsTimer()) {
+        if (this.isTimerTabActive()) {
             this.renderTime()
         }
         if (diff <= 0 || this.shouldReset) {
@@ -120,9 +123,9 @@ class Timer {
         var hours = Math.floor(seconds_number / 3600)
         var minutes = Math.floor((seconds_number - (hours * 3600)) / 60)
         var seconds = seconds_number - (hours * 3600) - (minutes * 60)
-        if (hours < 10) { hours = "0" + hours }
-        if (minutes < 10) { minutes = "0" + minutes }
-        if (seconds < 10) { seconds = "0" + seconds }
+        if (hours < 10) { hours = '0' + hours }
+        if (minutes < 10) { minutes = '0' + minutes }
+        if (seconds < 10) { seconds = '0' + seconds }
         return { hours, minutes, seconds }
     }
 
@@ -134,6 +137,13 @@ class Timer {
     switchButtonToStart(startButton) {
         startButton.innerHTML = 'Start'
         startButton.className = 'btn btn-success'
+    }
+
+    isTimerTabActive() {
+        return (
+            this.mainRenderer.templateManager.TabsEnum.TIMER
+            == this.mainRenderer.templateManager.activeTab
+        )
     }
 }
 

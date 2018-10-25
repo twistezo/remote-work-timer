@@ -4,11 +4,7 @@ Note:
 
 Tasks:
 
-Use `npm` with one of the following:
-```
-start -> electron-forge start
-package -> electron-forge package
-make -> electron-forge make
-publish -> electron-forge publish
-lint -> eslint src --color
-```
+Use `npm run` with one of the following:
+- `start` to run
+- `package` to pack for development
+- `make` to pack for production
