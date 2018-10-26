@@ -3,7 +3,7 @@ class TemplateManager {
         this.mainRenderer = MainRenderer
         this.TabsEnum = Object.freeze({
             TIMER: '#timer',
-            TABLE: '#table',
+            CHARTS: '#charts',
             SETTINGS: '#settings',
             ABOUT: '#about'
         })
@@ -99,6 +99,8 @@ class TemplateManager {
             this.mainRenderer.timer.listen()
         } else if (this.TabsEnum.SETTINGS == this.activeTab) {
             this.mainRenderer.settings.listen()
+        } else if (this.TabsEnum.CHARTS == this.activeTab) {
+            this.mainRenderer.charts.listen()
         }
     }
 }

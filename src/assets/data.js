@@ -1,8 +1,20 @@
 import fs from 'fs'
+import FakeDataGenerator from './fake-data-generator'
 
 class Data {
-    constructor() {
+    constructor(Charts, withFakeGenerator) {
+        this.charts = Charts
+        this.fakeDataGenerator = new FakeDataGenerator()
+        if (withFakeGenerator) {
+            this.withFakeGenerator()
+        }
+        this.tryLoadFromFile('data.json')
         this.daysData = []
+    }
+
+    withFakeGenerator() {
+        this.fakeDataGenerator.generate()
+        this.fakeDataGenerator.tryWriteToFile()
     }
 
     pushDay(dayData) {
@@ -38,9 +50,11 @@ class Data {
             if (!err) {
                 let rawData = JSON.parse(data)
                 this.daysData = this.parseRawData(rawData)
-            } else if (err) {
-                console.log(err)
-            }
+                if (this.withFakeGenerator) {
+                    this.charts.importData(this.daysData)
+                }
+            } else if (err) console.log(err)
+
         })
     }
 
