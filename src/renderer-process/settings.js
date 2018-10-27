@@ -1,13 +1,17 @@
 import fs from 'fs'
 import ImportDataDialog from './import-data-dialog'
 import ImportSettingsDialog from './import-settings-dialog'
+import FakeDataGenerator from '../assets/fake-data-generator'
 
 class Settings {
     constructor(MainRenderer) {
         this.mainRenderer = MainRenderer
         this.dailyWorkingTime = { hours: 0, minutes: 0, seconds: 5 }
+        this.dataFilePath = ''
+        this.settingsFilePath = ''
         this.importDataDialog = new ImportDataDialog(this.mainRenderer)
         this.importSettingsDialog = new ImportSettingsDialog(this.mainRenderer)
+        this.fakeDataGenerator = new FakeDataGenerator()
         this.tryWriteToFile()
         this.tryLoadFromFile('settings.json')
     }
@@ -20,6 +24,9 @@ class Settings {
         const hoursElement = document.querySelector('#daily-working-time-hours')
         const minutesElement = document.querySelector('#daily-working-time-minutes')
         const secondsElement = document.querySelector('#daily-working-time-seconds')
+        const fakeDataGeneratorElement = document.querySelector('#generate-fake-data')
+        const dataFilePathElement = document.getElementById('data-file-path')
+        const settingsFilePathElement = document.getElementById('settings-file-path')
 
         hoursElement.oninput = () => {
             this.dailyWorkingTime.hours = parseInt(hoursElement.value, 10)
@@ -36,8 +43,26 @@ class Settings {
             this.mainRenderer.timer.setDuration(this.getDailyWorkingTimeInSec())
             this.writeSettingsToFile()
         }
+        fakeDataGeneratorElement.onclick = () => {
+            this.fakeDataGenerator.generate()
+            this.fakeDataGenerator.tryWriteToFile()
+        }
         this.importDataDialog.listen()
         this.importSettingsDialog.listen()
+        this.renderPaths(dataFilePathElement, settingsFilePathElement)
+    }
+
+    setDataFilePath(path) {
+        this.dataFilePath = path
+    }
+
+    setSettingsFilePath(path) {
+        this.settingsFilePath = path
+    }
+
+    renderPaths(dataFilePathEl, settingsFilePathEl) {
+        dataFilePathEl.textContent = this.dataFilePath
+        settingsFilePathEl.textContent = this.settingsFilePath
     }
 
     setInputById(inputId, value) {
@@ -73,9 +98,7 @@ class Settings {
                 this.dailyWorkingTime.minutes = rawData.minutes
                 this.dailyWorkingTime.seconds = rawData.seconds
                 this.mainRenderer.timer.setDuration(this.getDailyWorkingTimeInSec())
-                if (this.isSettingsTabActive()) {
-                    this.listen()
-                }
+                this.setSettingsFilePath(path)
             } else {
                 console.log(err)
             }

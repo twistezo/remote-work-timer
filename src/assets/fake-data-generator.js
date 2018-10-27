@@ -3,16 +3,32 @@ import fs from 'fs'
 class FakeDataGenerator {
     constructor() {
         this.fakeData = null
+        this.fakeDaysOff = 26
     }
 
     generate() {
         let dateFrom = new Date()
         dateFrom.setMonth(dateFrom.getMonth() - 12)
         let dateTo = new Date()
+        let daysBetween = this.daysBetween(dateFrom, dateTo)
+
+        // generate days off
+        let fakeDaysOff = []
+        for (let i = 0; i <= this.fakeDaysOff; i++) {
+            fakeDaysOff.push(
+                Math.round(
+                    this.randomBetween(0, daysBetween)
+                )
+            )
+        }
 
         let fakeData = []
-        for (let i = 0; i <= this.daysBetween(dateFrom, dateTo); i++) {
+        for (let i = 0; i <= daysBetween; i++) {
             let currentDay = this.addDays(dateFrom, i)
+            // exclude weekends and days off
+            if (currentDay.getDay() == 0 || currentDay.getDay() == 6 || fakeDaysOff.some((a) => a == i)) {
+                continue
+            }
             let currentDayCycleFrom = this.randomDateBetween(currentDay, currentDay, 7, 10)
             let currentDayCycleTo = this.randomDateBetween(currentDay, currentDay, 15, 18)
 
@@ -49,6 +65,11 @@ class FakeDataGenerator {
         var hour = startHour + Math.random() * (endHour - startHour) | 0
         date.setHours(hour)
         return date
+    }
+
+    // min - inclusive, max - exclusive
+    randomBetween(min, max) {
+        return Math.random() * (max - min) + min
     }
 
     tryWriteToFile() {

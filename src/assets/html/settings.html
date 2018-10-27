@@ -1,18 +1,45 @@
-<template id="#settings">
-    <form>
-        <div class="form-group">
-            <input id="daily-working-time-hours" value="" type="text" class="form-control" placeholder="Daily hours">
-            <input id="daily-working-time-minutes" value="" type="text" class="form-control" placeholder="Daily minutes">
-            <input id="daily-working-time-seconds" value="" type="text" class="form-control" placeholder="Daily seconds">
-            <small class="form-text text-muted">Enter number of hours for daily count down timer.</small>
+<template id='#settings'>
+    <div class='text-center'>
+        <div class='green-text pb-4'>
+            Work hours to counting down
         </div>
-        <div>
-            File path: <span id="data-file-path" />
+        <div class='form-group row pb-4'>
+            <div class=' col-4'>
+                <label for='basic-url'>Hours</label>
+                <input id='daily-working-time-hours' value='' type='text' class='form-control'>
+            </div>
+            <div class='col-4'>
+                <label for='basic-url'>Minutes</label>
+                <input id='daily-working-time-minutes' value='' type='text' class='form-control'>
+            </div>
+            <div class='col-4'>
+                <label for='basic-url'>Seconds</label>
+                <input id='daily-working-time-seconds' value='' type='text' class='form-control'>
+            </div>
         </div>
-        <button id="import-data" type="button" class="btn btn-secondary">Import data from file</button>
-        <div>
-            File path: <span id="settings-file-path" />
+        <div class='pb-4'>
+            <div class='green-text pb-2'>
+                Time data file
+            </div>
+            <div class='pb-3'>
+                Current file: <span id='data-file-path' />
+            </div>
+            <button id='import-data' type='button' class='btn btn-secondary'>Import</button>
         </div>
-        <button id="import-settings" type="button" class="btn btn-secondary">Import settings from file</button>
-    </form>
+        <div class='pb-4'>
+            <div class='green-text pb-2'>
+                Settings file
+            </div>
+            <div class='pb-3'>
+                Current file: <span id='settings-file-path' />
+            </div>
+            <button id='import-settings' type='button' class='btn btn-secondary'>Import</button>
+        </div>
+        <div class='pb-4'>
+            <div class='green-text pb-3'>
+                Fake data generator
+            </div>
+            <button id='generate-fake-data' type='button' class='btn btn-secondary'>Generate</button>
+        </div>
+    </div>
 </template>

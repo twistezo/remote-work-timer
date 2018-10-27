@@ -14,6 +14,17 @@ class TemplateManager {
         this.init()
     }
 
+    // Main function for update active tab
+    triggerListeners() {
+        if (this.TabsEnum.TIMER == this.activeTab) {
+            this.mainRenderer.timer.listen()
+        } else if (this.TabsEnum.SETTINGS == this.activeTab) {
+            this.mainRenderer.settings.listen()
+        } else if (this.TabsEnum.CHARTS == this.activeTab) {
+            this.mainRenderer.charts.listen()
+        }
+    }
+
     init() {
         this.templatesEl = this.collectHtmlTemplates()
         this.templateContainerEl = this.getTemplateContainerDiv()
@@ -91,16 +102,6 @@ class TemplateManager {
             if (tabId == enumValue) {
                 this.activeTab = enumValue
             }
-        }
-    }
-
-    triggerListeners() {
-        if (this.TabsEnum.TIMER == this.activeTab) {
-            this.mainRenderer.timer.listen()
-        } else if (this.TabsEnum.SETTINGS == this.activeTab) {
-            this.mainRenderer.settings.listen()
-        } else if (this.TabsEnum.CHARTS == this.activeTab) {
-            this.mainRenderer.charts.listen()
         }
     }
 }

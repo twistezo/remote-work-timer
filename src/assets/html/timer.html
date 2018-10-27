@@ -1,8 +1,16 @@
-<template id="#timer">
-    <div>
-        Reamining time: <span id="remainingTime" />
+<template id='#timer'>
+    <div class='green-text text-center'>
+        <div>
+            Reamining time
+        </div>
+        <div id='remainingTime' class='h2 pt-2' />
     </div>
-
-    <button id="start-button" type="button" class="btn btn-success">Start</button>
-    <button id="reset-button" type="button" class="btn btn-danger">Reset</button>
+    <div class='form-group row pt-3'>
+        <div class='col-md-6 text-right'>
+            <button id='start-button' type='button' class='btn btn-success'>Start</button>
+        </div>
+        <div class='col-md-6 text-left'>
+            <button id='reset-button' type='button' class='btn btn-danger'>Reset</button>
+        </div>
+    </div>
 </template>

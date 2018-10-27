@@ -1,8 +1,8 @@
 {
-  "name": "emote-work-timer",
-  "productName": "Remote worktimer",
+  "name": "remote-work-timer",
+  "productName": "remote work timer",
   "version": "1.0.0",
-  "description": "Remote work timer",
+  "description": "remote work timer",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
@@ -32,7 +32,7 @@
         "packageManager": "yarn"
       },
       "electronWinstallerConfig": {
-        "name": "remote-work-timer"
+        "name": "remote work timer"
       },
       "electronInstallerDebian": {},
       "electronInstallerRedhat": {},
