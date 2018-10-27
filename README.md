@@ -4,7 +4,7 @@
 Countdown timer to measure work time
 
 ### Features 
-- custom `TemplateManager` to managing active tab component states
+- custom `TemplateManager` to manage active tab component states
 - auto updated annual chart with some work statistics
 - time data and settings are stored in files
 - fake time data generator for testing purposes
