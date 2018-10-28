@@ -1,16 +1,24 @@
 <template id='#timer'>
-    <div class='green-text text-center'>
-        <div>
-            Reamining time
+    <div class='text-center'>
+        <div class='pt-2'>
+            <span class='green-text'>Today total work time:</span>
+            <span id='timeToCountDown' class='purple-text' />
         </div>
-        <div id='remainingTime' class='h2 pt-2' />
-    </div>
-    <div class='form-group row pt-3'>
-        <div class='col-md-6 text-right'>
-            <button id='start-button' type='button' class='btn btn-success'>Start</button>
+        <div class='pt-3'>
+            <span class='green-text'>Elapsed time in current cycle:</span>
+            <span id='elapsedUpTimeInCycle' class='purple-text' />
         </div>
-        <div class='col-md-6 text-left'>
-            <button id='reset-button' type='button' class='btn btn-danger'>Reset</button>
+        <div class='green-text pt-3'>
+            Remaining total time
+            <div id='remainingTime' class='h2' />
+        </div>
+        <div class='form-group row pt-3'>
+            <div class='col-md-6 text-right'>
+                <button id='start-button' type='button' class='btn btn-success'>Start cycle</button>
+            </div>
+            <div class='col-md-6 text-left'>
+                <button id='reset-button' type='button' class='btn btn-danger'>Reset timer</button>
+            </div>
         </div>
     </div>
 </template>

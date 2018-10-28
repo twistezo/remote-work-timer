@@ -27,7 +27,7 @@ class Charts {
             dayDate.cyclesData.forEach((cycleData) => {
                 dayDurationSum += cycleData.duration
             })
-            dayDurationSum = dayDurationSum * 1 / 3600  // convert seconds to hoursF
+            dayDurationSum = Math.round(dayDurationSum * 1 / 3600)  // convert seconds to hours
             let dateString = dayDate.date.getFullYear() + '-' + (dayDate.date.getMonth() + 1)
                 + '-' + dayDate.date.getDate()
             data.push([dateString, dayDurationSum])

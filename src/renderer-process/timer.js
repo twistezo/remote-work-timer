@@ -13,16 +13,14 @@ class Timer {
         this.displayedTime = { hours: 0, minutes: 0, seconds: 0 }
         this.duration = null // [s]
         this.elapsed = null // [s]
+        this.elapsedUpInCycle = null // [s]
         this.tempCycleData = { dateFrom: null, dateTo: null }
+        this.dailyWorkingTime = null // [s]
         this.init()
     }
 
     init() {
         this.resetDuration()
-    }
-
-    getElement(string) {
-        return document.querySelector(string)
     }
 
     listen() {
@@ -32,8 +30,29 @@ class Timer {
             this.switchButtonToPause(this.startButton)
         }
         this.listenButtons()
-        this.renderTime()
+        this.render()
     }
+
+    render() {
+        let timeToCountDown = this.secondsToHMS(this.dailyWorkingTime)
+        document.querySelector('#timeToCountDown').textContent =
+            timeToCountDown.hours + ':' + timeToCountDown.minutes + ':'
+            + timeToCountDown.seconds
+
+        let elapsedUpTime = this.secondsToHMS(this.elapsedUpInCycle)
+        document.querySelector('#elapsedUpTimeInCycle').textContent =
+            elapsedUpTime.hours + ':' + elapsedUpTime.minutes + ':'
+            + elapsedUpTime.seconds
+
+        document.querySelector('#remainingTime').textContent =
+            this.displayedTime.hours + ':' + this.displayedTime.minutes
+            + ':' + this.displayedTime.seconds
+    }
+
+    getElement(string) {
+        return document.querySelector(string)
+    }
+
 
     listenButtons() {
         this.startButton.onclick = () => {
@@ -60,12 +79,15 @@ class Timer {
     }
 
     count() {
-        let diff = this.duration - (((Date.now() - this.startDate) / 1000) | 0)
+        let elapsedTime = (((Date.now() - this.startDate) / 1000) | 0)
+        this.elapsedUpInCycle = elapsedTime
+
+        let diff = this.duration - elapsedTime
         this.elapsed = diff
         this.displayedTime = this.secondsToHMS(diff)
 
         if (this.isTimerTabActive()) {
-            this.renderTime()
+            this.render()
         }
         if (diff <= 0 || this.shouldReset) {
             clearInterval(this.counter)
@@ -87,13 +109,13 @@ class Timer {
         )
     }
 
-    resetDuration() {
-        this.setDuration(this.mainRenderer.settings.getDailyWorkingTimeInSec())
-    }
-
     setDuration(seconds) {
         this.displayedTime = this.secondsToHMS(seconds)
         this.duration = seconds
+    }
+
+    resetDuration() {
+        this.setDuration(this.mainRenderer.settings.getDailyWorkingTimeInSec())
     }
 
     resetElapsed() {
@@ -105,18 +127,13 @@ class Timer {
     }
 
     resetCounter() {
+        this.elapsedUpInCycle = 0
         this.resetDuration()
         this.resetStartDate()
         this.isRunning = false
         this.shouldReset = false
         this.switchButtonToStart(this.startButton)
-        this.renderTime()
-    }
-
-    renderTime() {
-        document.querySelector('#remainingTime').textContent =
-            this.displayedTime.hours + ':' + this.displayedTime.minutes
-            + ':' + this.displayedTime.seconds
+        this.render()
     }
 
     secondsToHMS(seconds_number) {
@@ -130,13 +147,17 @@ class Timer {
     }
 
     switchButtonToPause(startButton) {
-        startButton.innerHTML = 'Pause'
+        startButton.innerHTML = 'Pause cycle'
         startButton.className = 'btn btn-warning'
     }
 
     switchButtonToStart(startButton) {
-        startButton.innerHTML = 'Start'
+        startButton.innerHTML = 'Start cycle'
         startButton.className = 'btn btn-success'
+    }
+
+    setDailyWorkingTime(seconds) {
+        this.dailyWorkingTime = seconds
     }
 
     isTimerTabActive() {

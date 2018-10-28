@@ -12,10 +12,7 @@ class ImportSettingsDialog {
         })
 
         ipcRenderer.on('selected-settings-file', (_event, path) => {
-            // document.getElementById('settings-file-path').textContent = `${path}`
             this.mainRenderer.settings.tryLoadFromFile(`${path}`)
-            this.mainRenderer.settings.setSettingsFilePath(`${path}`)
-            this.mainRenderer.settings.listen()
         })
     }
 }

@@ -2,7 +2,6 @@ import fs from 'fs'
 
 class Data {
     constructor() {
-
         this.daysData = []
     }
 

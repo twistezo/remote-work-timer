@@ -4,6 +4,7 @@ class FakeDataGenerator {
     constructor() {
         this.fakeData = null
         this.fakeDaysOff = 26
+        this.filePath = 'data.json'
     }
 
     generate() {
@@ -74,9 +75,13 @@ class FakeDataGenerator {
 
     tryWriteToFile() {
         let data = JSON.stringify(this.fakeData, null, 4)
-        fs.writeFile('data.json', data, (err) => {
+        fs.writeFile(this.filePath, data, (err) => {
             if (err) console.log(err)
         })
+    }
+
+    getFilePath() {
+        return this.filePath
     }
 }
 

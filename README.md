@@ -33,7 +33,7 @@ Possible `make` targets (set in `package.json`):
 <table>
     <tr>
         <td>
-            <img src="https://i.imgur.com/ZKIxZlD.png" width="500">
+            <img src="https://i.imgur.com/rV4ObT9.png" width="500">
         </td>
         <td>
             <img src="https://i.imgur.com/amdsFAd.png" width="500">
