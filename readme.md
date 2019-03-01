@@ -15,7 +15,7 @@ Countdown timer to measure work time
 
 ### Tools
 
-JavaScript ES6, Bootstrap 4, Electron 6, Electron-Forge 5 (as build tool)
+JavaScript ES6, Bootstrap 4, Electron 6, Electron-Forge 5
 
 ### Build, run
 
