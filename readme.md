@@ -1,9 +1,11 @@
 ## Remote work timer
 
 ### Description
+
 Countdown timer to measure work time
 
-### Features 
+### Features
+
 - custom `TemplateManager` to manage active tab component states
 - auto updated annual chart with some work statistics
 - time data and settings are stored in files
@@ -12,17 +14,21 @@ Countdown timer to measure work time
 - colors inspired by Dracula theme
 
 ### Tools
+
 JavaScript ES6, Bootstrap 4, Electron 6, Electron-Forge 5 (as build tool)
 
 ### Build, run
+
 To build use `yarn` instead of `npm`.
 
 To run use `npm run` with one of the following:
+
 - `start` to run
 - `package` to pack for development
 - `make` to pack for production
 
 Possible `make` targets (set in `package.json`):
+
 - `zip` - archive
 - `squirrel` - Windows installer
 - `appx` - Windows store app
@@ -30,6 +36,7 @@ Possible `make` targets (set in `package.json`):
 - `deb`, `rpm`, `flatpak`, `snap` - Linux
 
 ### Screenshots
+
 <table>
     <tr>
         <td>
