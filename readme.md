@@ -2,7 +2,7 @@
 
 ### Description
 
-Countdown timer to measure work time
+Remote work timer with statistics
 
 ### Features
 
